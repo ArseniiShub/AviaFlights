@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AirplanesService.AsyncDataServices;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirplanesService.Controllers;
@@ -10,12 +11,16 @@ public class AirplanesController : ControllerBase
 	private readonly IAirplaneRepository _airplaneRepository;
 	private readonly IManufacturerRepository _manufacturerRepository;
 	private readonly IMapper _mapper;
+	private readonly IMessageBusClient _messageBusClient;
 
-	public AirplanesController(IAirplaneRepository airplaneRepository, IManufacturerRepository manufacturerRepository, IMapper mapper)
+	public AirplanesController(IAirplaneRepository airplaneRepository, IManufacturerRepository manufacturerRepository,
+		IMapper mapper, IMessageBusClient messageBusClient)
 	{
 		_airplaneRepository = airplaneRepository ?? throw new ArgumentNullException(nameof(airplaneRepository));
-		_manufacturerRepository = manufacturerRepository ?? throw new ArgumentNullException(nameof(manufacturerRepository));
+		_manufacturerRepository =
+			manufacturerRepository ?? throw new ArgumentNullException(nameof(manufacturerRepository));
 		_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+		_messageBusClient = messageBusClient ?? throw new ArgumentNullException(nameof(messageBusClient));
 	}
 
 	[HttpGet]
@@ -50,6 +55,8 @@ public class AirplanesController : ControllerBase
 		var airplane = _mapper.Map<Airplane>(airplaneCreateDto);
 		_airplaneRepository.CreateAirplane(airplane);
 		_airplaneRepository.SaveChanges();
+
+		_messageBusClient.PublishNewAirplane(_mapper.Map<AirplanePublishDto>(airplane));
 
 		var airplaneReadDto = _mapper.Map<AirplaneReadDto>(airplane);
 		return CreatedAtAction(nameof(GetAirplaneById), new { airplane.Id }, airplaneReadDto);

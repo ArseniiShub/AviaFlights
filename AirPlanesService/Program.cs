@@ -3,6 +3,7 @@ global using AirplanesService.Dtos;
 global using AirplanesService.Data.Repositories;
 global using AirplanesService.Data;
 using System.Text.Json.Serialization;
+using AirplanesService.AsyncDataServices;
 using AirplanesService.Constants;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,8 @@ else
 }
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddSingleton<IMessageBusClient, RabbitMQMessageBusClient>();
 
 builder.Services.AddScoped<IAirplaneRepository, AirplaneRepository>();
 builder.Services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
