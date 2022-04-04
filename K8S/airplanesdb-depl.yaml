@@ -1,0 +1,82 @@
+﻿apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: airplanesdb-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Mi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airplanesdb-depl
+  labels:
+    app: airplanesdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airplanesdb
+  template:
+    metadata:
+      labels:
+        app: airplanesdb
+    spec:
+      containers:
+        - name: airplanesdb
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: MSSQL_PID
+              value: "Express"
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: SA_PASSWORD
+                  name: airplanesdb-sa-pass
+          volumeMounts:
+            - mountPath: /var/opt/db/airplanes/data
+              name: airplanesdb
+      volumes:
+        - name: airplanesdb
+          persistentVolumeClaim:
+            claimName: airplanesdb-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: airplanesdb
+spec:
+  ports:
+    - port: 11111
+      protocol: TCP
+      targetPort: 1433
+  selector:
+    app: airplanesdb
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: airplanesdb-clusterip-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: airplanesdb
+  ports:
+    - name: airplanesdb
+      protocol: TCP
+      port: 1433
+      targetPort: 1433
