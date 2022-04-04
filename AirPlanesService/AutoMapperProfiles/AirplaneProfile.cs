@@ -10,5 +10,6 @@ public class AirplaneProfile : Profile
 	{
 		CreateMap<Airplane, AirplaneReadDto>();
 		CreateMap<AirplaneCreateDto, Airplane>();
+		CreateMap<Airplane, AirplanePublishDto>();
 	}
 }
