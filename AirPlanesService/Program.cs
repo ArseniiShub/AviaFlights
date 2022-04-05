@@ -36,6 +36,7 @@ else
 	logger.LogInformation("Using SqlServer Database");
 	var connStrBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DefaultConnection"))
 	{
+		DataSource = Environment.GetEnvironmentVariable(Constants.MsSqlUrl),
 		Password = Environment.GetEnvironmentVariable(Constants.MsSqlSAPasswordKey)
 	};
 

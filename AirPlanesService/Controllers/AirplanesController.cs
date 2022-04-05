@@ -30,14 +30,14 @@ public class AirplanesController : ControllerBase
 		return Ok(_mapper.Map<IEnumerable<AirplaneReadDto>>(airplanes));
 	}
 
-	[HttpGet("inservice")]
+	[HttpGet("service")]
 	public ActionResult<IEnumerable<AirplaneReadDto>> GetAirplanesInService()
 	{
 		var airplanes = _airplaneRepository.GetAirplanesInService();
 		return Ok(_mapper.Map<IEnumerable<AirplaneReadDto>>(airplanes));
 	}
 
-	[HttpGet("{id}")]
+	[HttpGet("{id:int}")]
 	public ActionResult<IEnumerable<AirplaneReadDto>> GetAirplaneById(int id)
 	{
 		var airplanes = _airplaneRepository.GetAirplanesInService();

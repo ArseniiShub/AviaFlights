@@ -2,5 +2,6 @@
 
 public static class Constants
 {
+	public static string MsSqlUrl => "MSSQL_URL";
 	public static string MsSqlSAPasswordKey => "MSSQL_SA_PASSWORD";
 }

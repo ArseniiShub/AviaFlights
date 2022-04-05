@@ -19,8 +19,13 @@ spec:
             - name: MSSQL_SA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: SA_PASSWORD
                   name: airplanesdb-sa-pass
+                  key: SA_PASSWORD
+            - name: MSSQL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: airplanes-cm
+                  key: database-url
 
 ---
 

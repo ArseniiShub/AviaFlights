@@ -24,7 +24,7 @@ public class ManufacturersController : ControllerBase
 		return Ok(_mapper.Map<IEnumerable<ManufacturerReadDto>>(manufacturers));
 	}
 
-	[HttpGet("{id}")]
+	[HttpGet("{id:int}")]
 	public ActionResult<IEnumerable<ManufacturerReadDto>> GetManufacturerById(int id)
 	{
 		var manufacturer = _manufacturerRepository.GetManufacturerById(id);
