@@ -1,0 +1,6 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flight-catalog-cm
+data:
+  database-url: flight-catalog-db-clusterip,1433

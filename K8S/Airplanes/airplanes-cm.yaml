@@ -1,6 +1,0 @@
-﻿apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: airplanes-cm
-data:
-  database-url: airplanesdb-clusterip-svc,1433

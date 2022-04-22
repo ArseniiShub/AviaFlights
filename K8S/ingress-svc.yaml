@@ -10,17 +10,17 @@ spec:
     - host: acme.com
       http:
         paths:
-          - path: /api/airplanes
+          - path: /api/m
             pathType: Prefix
             backend:
               service:
-                name: airplanes-clusterip-svc
+                name: data-mng-service-clusterip
                 port:
                   number: 80
-          - path: /api/manufacturers
+          - path: /api/c
             pathType: Prefix
             backend:
               service:
-                name: airplanes-clusterip-svc
+                name: flight-catalog-service-clusterip
                 port:
                   number: 80

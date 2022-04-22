@@ -1,0 +1,6 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: data-mng-cm
+data:
+  database-url: data-mng-db-clusterip,1433

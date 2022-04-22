@@ -1,0 +1,82 @@
+﻿apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-mng-db-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Mi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-mng-db-depl
+  labels:
+    app: data-mng-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-mng-db
+  template:
+    metadata:
+      labels:
+        app: data-mng-db
+    spec:
+      containers:
+        - name: data-mng-db
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: MSSQL_PID
+              value: "Express"
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: SA_PASSWORD
+                  name: data-mng-db-sa-pass
+          volumeMounts:
+            - mountPath: /var/opt/db/data-mng-db/data
+              name: data-mng-db
+      volumes:
+        - name: data-mng-db
+          persistentVolumeClaim:
+            claimName: data-mng-db-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-mng-db
+spec:
+  ports:
+    - port: 11111
+      protocol: TCP
+      targetPort: 1433
+  selector:
+    app: data-mng-db
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-mng-db-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: data-mng-db
+  ports:
+    - name: data-mng-db
+      protocol: TCP
+      port: 1433
+      targetPort: 1433
