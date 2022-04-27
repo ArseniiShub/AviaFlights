@@ -46,6 +46,8 @@ public class MessageBusEventsProcessor : IMessageBusEventsProcessor
 		var airplanePublishDto = JsonSerializer.Deserialize<AirplanePublishDto>(jsonNotification);
 		var airplane = _mapper.Map<Airplane>(airplanePublishDto);
 
+		_logger.LogInformation($"\nTest:\n\tId: {airplane.Id} ExtId: {airplane.ExternalId}");
+
 		using var scope = _serviceScopeFactory.CreateScope();
 		var airplaneRepository = scope.ServiceProvider.GetRequiredService<IAirplaneRepository>();
 

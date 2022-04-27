@@ -24,7 +24,7 @@ public class TestDataCreator
 			new Country { Name = "Russia" }
 		);
 
-		_context.Manufacturers.Add(new Manufacturer { CountryId = 1, Company = "Boeing" });
+		_context.Manufacturers.Add(new Manufacturer { CountryId = 1, Name = "Boeing" });
 
 		_context.Airports.AddRange(
 			new Airport

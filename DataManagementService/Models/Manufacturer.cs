@@ -4,7 +4,7 @@ namespace DataManagementService.Models;
 public class Manufacturer
 {
 	public int Id { get; set; }
-	public string Company { get; set; } = "";
+	public string Name { get; set; } = "";
 
 	public int CountryId { get; init; }
 	public Country Country { get; set; } = null!;

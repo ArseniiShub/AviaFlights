@@ -2,6 +2,7 @@
 using DataManagementService.AsyncDataServices;
 using DataManagementService.Data.Repositories;
 using DataManagementService.Dtos;
+using DataManagementService.Enums;
 using DataManagementService.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,7 +62,14 @@ public class AirplanesController : ControllerBase
 
 		try
 		{
-			_messageBusClient.PublishAirplane(_mapper.Map<AirplanePublishDto>(airplane));
+			var airplanePublishDto = _airplaneRepository.GetAirplanePublishDto(airplane.Id);
+			if(airplanePublishDto == null)
+			{
+				throw new InvalidOperationException("Could not get AirplanePublishDto");
+			}
+
+			airplanePublishDto.EventType = EventType.AirplanePublished;
+			_messageBusClient.PublishAirplane(airplanePublishDto);
 		}
 		catch(Exception e)
 		{

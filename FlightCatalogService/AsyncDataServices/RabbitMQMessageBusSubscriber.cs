@@ -12,6 +12,7 @@ public class RabbitMQMessageBusSubscriber : BackgroundService
 	private readonly IMessageBusEventsProcessor _eventProcessor;
 	private readonly IConnection _connection;
 	private readonly IModel _channel;
+	private readonly string _queueName;
 
 	public RabbitMQMessageBusSubscriber(IConfiguration configuration, ILogger<RabbitMQMessageBusSubscriber> logger,
 		IMessageBusEventsProcessor eventProcessor)
@@ -24,10 +25,11 @@ public class RabbitMQMessageBusSubscriber : BackgroundService
 			HostName = configuration[ConfigKeyPaths.RabbitMQHost],
 			Port = int.Parse(configuration[ConfigKeyPaths.RabbitMQPort])
 		};
+		_queueName = configuration[ConfigKeyPaths.DataManagementPublishQueue];
 
 		_connection = factory.CreateConnection();
 		_channel = _connection.CreateModel();
-		_channel.QueueDeclare(ConfigKeyPaths.CatalogManagementPublishQueue, true, false, false);
+		_channel.QueueDeclare(_queueName, true, false, false);
 		_connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
 	}
 
@@ -42,6 +44,7 @@ public class RabbitMQMessageBusSubscriber : BackgroundService
 
 		var consumer = new EventingBasicConsumer(_channel);
 		consumer.Received += OnEventReceived;
+		_channel.BasicConsume(_queueName, false, consumer);
 		_logger.LogInformation("Listening RabbitMQ events");
 
 		return Task.CompletedTask;
@@ -55,6 +58,8 @@ public class RabbitMQMessageBusSubscriber : BackgroundService
 		var jsonNotification = Encoding.UTF8.GetString(body.ToArray());
 
 		_eventProcessor.ProcessEvent(jsonNotification);
+		
+		((EventingBasicConsumer)sender!).Model.BasicAck(e.DeliveryTag, false);
 	}
 
 	public override void Dispose()

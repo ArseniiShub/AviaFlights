@@ -30,17 +30,13 @@ namespace FlightCatalogService.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AirplaneVariantName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("AvailableSeats")
                         .HasColumnType("int");
 
                     b.Property<int>("ExternalId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNumber")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

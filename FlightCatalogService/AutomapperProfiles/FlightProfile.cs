@@ -11,7 +11,7 @@ public class FlightProfile : Profile
 	public FlightProfile()
 	{
 		CreateMap<Flight, FlightReadDto>()
-			.ForMember(dto => dto.AirplaneName, opt => opt.MapFrom(f => f.Airplane.SerialNumber))
+			.ForMember(dto => dto.AirplaneFullName, opt => opt.MapFrom(f => f.Airplane.FullName))
 			.ForMember(dto => dto.FlightRouteName, opt => opt.MapFrom(f => f.FlightRoute.Name));
 	}
 }

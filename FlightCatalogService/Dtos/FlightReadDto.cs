@@ -8,6 +8,6 @@ public class FlightReadDto
 	[Required] public DateTime Departure { get; set; }
 	[Required] public DateTime Arrival { get; set; }
 	[Required] public int AvailableSeats { get; set; }
-	[Required] public string AirplaneName { get; init; } = "";
+	[Required] public string AirplaneFullName { get; set; } = "";
 	[Required] public string FlightRouteName { get; set; } = "";
 }

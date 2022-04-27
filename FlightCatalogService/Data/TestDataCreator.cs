@@ -55,20 +55,18 @@ public class TestDataCreator
 		{
 			new Airplane
 			{
-				SerialNumber = "737-01",
 				ExternalId = 1,
 				AvailableSeats = 30,
-				AirplaneVariantName = "Boeing"
+				FullName = "Boeing 737 737-01"
 			},
 			new Airplane
 			{
-				SerialNumber = "737-02",
 				ExternalId = 1,
 				AvailableSeats = 20,
-				AirplaneVariantName = "Boeing"
+				FullName = "Boeing 737 737-02"
 			}
 		};
-		
+
 		_context.Airplanes.AddRange(airplanes);
 
 		var flightRoutes = new[]
