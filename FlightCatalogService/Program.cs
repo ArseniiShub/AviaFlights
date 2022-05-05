@@ -1,3 +1,4 @@
+global using FlightCatalogService.Enums;
 using FlightCatalogService.AsyncDataServices;
 using FlightCatalogService.BackgroundServices;
 using FlightCatalogService.ConstantValues;
@@ -54,6 +55,7 @@ else
 	builder.Services.AddHostedService<RabbitMQMessageBusSubscriber>();
 }
 
+builder.Services.AddGrpc();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddSingleton<IFlightGenerator, FlightGenerator>();
@@ -92,6 +94,8 @@ else
 	}
 	scope.ServiceProvider.GetRequiredService<TestDataCreator>().FillData();
 }
+
+app.MapGrpcService<FlightService>();
 
 app.UseHttpsRedirection();
 

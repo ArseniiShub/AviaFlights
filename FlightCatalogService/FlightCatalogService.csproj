@@ -6,10 +6,12 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<RootNamespace>FlightCatalogService</RootNamespace>
+		<WarningsAsErrors>Nullable</WarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.45.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
 		  <PrivateAssets>all</PrivateAssets>
@@ -19,6 +21,14 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
 		<PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\flight.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Data\Migrations" />
 	</ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
 global using DataManagementService.Data;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using DataManagementService.AsyncDataServices;
 using DataManagementService.ConstantValues;

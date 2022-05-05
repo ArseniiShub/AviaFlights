@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightCatalogService.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220421135430_Initital")]
-    partial class Initital
+    [Migration("20220502121333_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,17 +32,13 @@ namespace FlightCatalogService.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AirplaneVariantName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("AvailableSeats")
                         .HasColumnType("int");
 
                     b.Property<int>("ExternalId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNumber")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -151,9 +147,6 @@ namespace FlightCatalogService.Data.Migrations
                     b.Property<int>("FromAirportId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FromId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -161,14 +154,11 @@ namespace FlightCatalogService.Data.Migrations
                     b.Property<int>("ToAirportId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ToId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("FromId");
+                    b.HasIndex("FromAirportId");
 
-                    b.HasIndex("ToId");
+                    b.HasIndex("ToAirportId");
 
                     b.ToTable("FlightRoutes");
                 });
@@ -205,21 +195,21 @@ namespace FlightCatalogService.Data.Migrations
 
             modelBuilder.Entity("FlightCatalogService.Models.FlightRoute", b =>
                 {
-                    b.HasOne("FlightCatalogService.Models.Airport", "From")
+                    b.HasOne("FlightCatalogService.Models.Airport", "FromAirport")
                         .WithMany()
-                        .HasForeignKey("FromId")
+                        .HasForeignKey("FromAirportId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FlightCatalogService.Models.Airport", "To")
+                    b.HasOne("FlightCatalogService.Models.Airport", "ToAirport")
                         .WithMany()
-                        .HasForeignKey("ToId")
+                        .HasForeignKey("ToAirportId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("From");
+                    b.Navigation("FromAirport");
 
-                    b.Navigation("To");
+                    b.Navigation("ToAirport");
                 });
 #pragma warning restore 612, 618
         }

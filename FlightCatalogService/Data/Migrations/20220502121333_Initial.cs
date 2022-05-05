@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FlightCatalogService.Data.Migrations
 {
-    public partial class Initital : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,8 +16,7 @@ namespace FlightCatalogService.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExternalId = table.Column<int>(type: "int", nullable: false),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AirplaneVariantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AvailableSeats = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -72,22 +71,20 @@ namespace FlightCatalogService.Data.Migrations
                     ExternalId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FromAirportId = table.Column<int>(type: "int", nullable: false),
-                    FromId = table.Column<int>(type: "int", nullable: false),
-                    ToAirportId = table.Column<int>(type: "int", nullable: false),
-                    ToId = table.Column<int>(type: "int", nullable: false)
+                    ToAirportId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FlightRoutes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FlightRoutes_Airports_FromId",
-                        column: x => x.FromId,
+                        name: "FK_FlightRoutes_Airports_FromAirportId",
+                        column: x => x.FromAirportId,
                         principalTable: "Airports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FlightRoutes_Airports_ToId",
-                        column: x => x.ToId,
+                        name: "FK_FlightRoutes_Airports_ToAirportId",
+                        column: x => x.ToAirportId,
                         principalTable: "Airports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -128,14 +125,14 @@ namespace FlightCatalogService.Data.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FlightRoutes_FromId",
+                name: "IX_FlightRoutes_FromAirportId",
                 table: "FlightRoutes",
-                column: "FromId");
+                column: "FromAirportId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FlightRoutes_ToId",
+                name: "IX_FlightRoutes_ToAirportId",
                 table: "FlightRoutes",
-                column: "ToId");
+                column: "ToAirportId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Flights_AirplaneId",

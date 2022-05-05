@@ -1,0 +1,6 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: booking-service-cm
+data:
+  catalog-service-rpc-endpoint: http://flight-catalog-service-clusterip:666

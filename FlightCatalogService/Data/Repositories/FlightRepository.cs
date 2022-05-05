@@ -42,4 +42,21 @@ public class FlightRepository : IFlightRepository
 	{
 		return _context.SaveChanges() > 0;
 	}
+
+	public Flight? GetFlightById(int id, bool includeAirplane = false, bool includeFlightRoute = false)
+	{
+		var query = _context.Flights.Where(f => f.Id == id);
+
+		if(includeAirplane)
+		{
+			query = query.Include(f => f.Airplane);
+		}
+
+		if(includeFlightRoute)
+		{
+			query = query.Include(f => f.FlightRoute);
+		}
+
+		return query.FirstOrDefault();
+	}
 }

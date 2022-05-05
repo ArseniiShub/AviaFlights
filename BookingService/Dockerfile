@@ -18,3 +18,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "BookingService.dll"]
+
+# docker build -f BookingService\Dockerfile -t eyndrahena/booking-service . ; docker push eyndrahena/booking-service ; kubectl rollout restart deploy booking-service-deploy

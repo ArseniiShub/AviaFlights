@@ -24,3 +24,10 @@ spec:
                 name: flight-catalog-service-clusterip
                 port:
                   number: 80
+          - path: /api/b
+            pathType: Prefix
+            backend:
+              service:
+                name: booking-service-clusterip
+                port:
+                  number: 80

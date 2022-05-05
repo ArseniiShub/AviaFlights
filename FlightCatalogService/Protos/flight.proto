@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "FlightCatalogService.Protos";
+
+package flight;
+
+service FlightService {
+	rpc GetFlight (FlightRequest) returns (FlightReply);
+}
+
+message FlightRequest {
+	int32 id = 1;
+}
+
+message FlightReply {
+	int32 id = 1;
+	string flight_route_name = 2;
+	string airplane_full_name = 3;
+	string departure_date = 4;
+	string arrival_date = 5;
+}
