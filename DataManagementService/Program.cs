@@ -6,6 +6,7 @@ using DataManagementService.ConstantValues;
 using DataManagementService.Data.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,8 @@ builder.Services.AddSwaggerGen(opt =>
 	var xmlFile = Assembly.GetExecutingAssembly().GetName().Name + ".xml";
 	var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 	opt.IncludeXmlComments(xmlPath);
+
+	opt.CustomOperationIds(description => description.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
 });
 
 var app = builder.Build();
@@ -80,7 +83,7 @@ var app = builder.Build();
 if(app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
-	app.UseSwaggerUI();
+	app.UseSwaggerUI(opt => opt.DisplayOperationId());
 
 	using var scope = app.Services.CreateScope();
 	using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
