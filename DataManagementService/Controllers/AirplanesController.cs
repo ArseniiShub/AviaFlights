@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Net.Mime;
+using AutoMapper;
 using DataManagementService.AsyncDataServices;
 using DataManagementService.Data.Repositories;
 using DataManagementService.Dtos;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace DataManagementService.Controllers;
 
 [Route("api/m/[controller]")]
+[Produces(MediaTypeNames.Application.Json)]
+[Consumes(MediaTypeNames.Application.Json)]
 [ApiController]
 public class AirplanesController : ControllerBase
 {
@@ -28,14 +31,26 @@ public class AirplanesController : ControllerBase
 		_logger = logger;
 	}
 
+	/// <summary>
+	/// Returns all airplanes
+	/// </summary>
+	/// <returns></returns>
 	[HttpGet]
+	[ProducesResponseType(StatusCodes.Status200OK)]
 	public ActionResult<IEnumerable<AirplaneReadDto>> GetAllAirplanes()
 	{
 		var airplanes = _airplaneRepository.GetAllAirplanes();
 		return Ok(_mapper.Map<IEnumerable<AirplaneReadDto>>(airplanes));
 	}
 
+	/// <summary>
+	/// Returns an airplane for given id
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
 	[HttpGet("{id:int}")]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public ActionResult<IEnumerable<AirplaneReadDto>> GetAirplaneById(int id)
 	{
 		var airplane = _airplaneRepository.GetAirplaneById(id);
@@ -48,8 +63,15 @@ public class AirplanesController : ControllerBase
 		return Ok(_mapper.Map<AirplaneReadDto>(airplane));
 	}
 
+	/// <summary>
+	/// Creates airplane using provided data
+	/// </summary>
+	/// <param name="airplaneCreateDto"></param>
+	/// <returns></returns>
 	[HttpPost]
-	public ActionResult<Airplane> CreateAirplane(AirplaneCreateDto airplaneCreateDto)
+	[ProducesResponseType(StatusCodes.Status201Created)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	public ActionResult<AirplaneReadDto> CreateAirplane(AirplaneCreateDto airplaneCreateDto)
 	{
 		if(!_airplaneVariantRepository.AirplaneVariantExists(airplaneCreateDto.VariantId))
 		{

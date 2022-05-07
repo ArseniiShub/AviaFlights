@@ -1,4 +1,5 @@
 global using DataManagementService.Data;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using DataManagementService.AsyncDataServices;
 using DataManagementService.ConstantValues;
@@ -67,7 +68,12 @@ builder.Services.AddControllers()
 	.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opt =>
+{
+	var xmlFile = Assembly.GetExecutingAssembly().GetName().Name + ".xml";
+	var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+	opt.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 
