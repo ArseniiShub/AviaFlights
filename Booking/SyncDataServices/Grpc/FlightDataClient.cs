@@ -1,8 +1,8 @@
 using AutoMapper;
-using BookingService.Dtos;
+using Booking.Dtos;
 using FlightCatalogService.Protos;
 
-namespace BookingService.SyncDataServices.Grpc;
+namespace Booking.SyncDataServices.Grpc;
 
 public class FlightDataClient : IFlightDataClient
 {

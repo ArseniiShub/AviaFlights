@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BookingService.Dtos;
-using BookingService.Models;
+using Booking.Dtos;
+using Booking.Models;
 
-namespace BookingService.AutoMapperProfiles;
+namespace Booking.AutoMapperProfiles;
 
 // ReSharper disable once UnusedType.Global
 public class TicketProfile : Profile

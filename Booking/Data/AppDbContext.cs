@@ -1,8 +1,7 @@
-﻿using BookingService.Dtos;
-using BookingService.Models;
+﻿using Booking.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookingService.Data;
+namespace Booking.Data;
 
 public class AppDbContext : DbContext
 {

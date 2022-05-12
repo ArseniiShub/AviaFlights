@@ -1,4 +1,4 @@
-﻿namespace BookingService.Models;
+﻿namespace Booking.Models;
 
 public class Ticket
 {

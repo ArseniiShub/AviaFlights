@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using BookingService.ConstantValues;
-using BookingService.Data;
-using BookingService.Data.Repositories;
-using BookingService.Dtos;
-using BookingService.Models;
-using BookingService.SyncDataServices.Grpc;
+using Booking.ConstantValues;
+using Booking.Data;
+using Booking.Data.Repositories;
+using Booking.Dtos;
+using Booking.Models;
+using Booking.SyncDataServices.Grpc;
 using FlightCatalogService.Protos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

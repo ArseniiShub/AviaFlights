@@ -1,4 +1,4 @@
-﻿namespace BookingService.ConstantValues;
+﻿namespace Booking.ConstantValues;
 
 public static class EnvironmentVariablesKeys
 {

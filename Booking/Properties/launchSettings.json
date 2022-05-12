@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "BookingService": {
+    "Booking": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BookingService.Dtos;
+using Booking.Dtos;
 using FlightCatalogService.Protos;
 
-namespace BookingService.AutoMapperProfiles;
+namespace Booking.AutoMapperProfiles;
 
 // ReSharper disable once UnusedType.Global
 public class FlightProfile : Profile

@@ -1,4 +1,4 @@
-﻿namespace BookingService.Dtos;
+﻿namespace Booking.Dtos;
 
 public class TicketCreateDto
 {

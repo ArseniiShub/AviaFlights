@@ -6,7 +6,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<WarningsAsErrors>Nullable</WarningsAsErrors>
-		<RootNamespace>BookingService</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

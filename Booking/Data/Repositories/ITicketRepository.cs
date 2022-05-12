@@ -1,6 +1,6 @@
-﻿using BookingService.Models;
+﻿using Booking.Models;
 
-namespace BookingService.Data.Repositories;
+namespace Booking.Data.Repositories;
 
 public interface ITicketRepository
 {
