@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Booking.Dtos;
-using FlightCatalogService.Protos;
+using Catalog.Protos;
 
 namespace Booking.AutoMapperProfiles;
 

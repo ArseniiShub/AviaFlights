@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightCatalogService", "FlightCatalogService\FlightCatalogService.csproj", "{A9314F44-4FAA-445A-899C-162148A0DC43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "Catalog\Catalog.csproj", "{A9314F44-4FAA-445A-899C-162148A0DC43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking", "Booking\Booking.csproj", "{289A730C-2A1A-41DD-A0CF-D17D1CD17E23}"
 EndProject

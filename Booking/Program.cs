@@ -5,7 +5,7 @@ using Booking.Data.Repositories;
 using Booking.Dtos;
 using Booking.Models;
 using Booking.SyncDataServices.Grpc;
-using FlightCatalogService.Protos;
+using Catalog.Protos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
