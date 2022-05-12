@@ -1,3 +1,3 @@
-﻿dotnet ef migrations add <migration name> --project .\DataManagementService\DataManagementService.csproj --output-dir Data/Migrations -- --environment Production
+﻿dotnet ef migrations add <migration name> --project .\Management\Management.csproj --output-dir Data/Migrations -- --environment Production
 
 dotnet ef migrations add <migration name> --project .\FlightCatalogService\FlightCatalogService.csproj --output-dir Data/Migrations -- --environment Production
