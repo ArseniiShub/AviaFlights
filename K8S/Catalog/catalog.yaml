@@ -16,16 +16,26 @@ spec:
         - name: catalog
           image: eyndrahena/catalog:latest
           env:
-            - name: MSSQL_SA_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: catalog-db-sa-pass
-                  key: SA_PASSWORD
-            - name: MSSQL_URL
+            - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
                   name: catalog-cm
-                  key: database-url
+                  key: database-host
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: catalog-cm
+                  key: database-port
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db-credentials
+                  key: password
 
 ---
 

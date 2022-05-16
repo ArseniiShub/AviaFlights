@@ -15,7 +15,7 @@ public class FlightRepository : IFlightRepository
 	public IEnumerable<Flight> GetFlightsOnDay(DateOnly date, bool includeAirplane = false,
 		bool includeFlightRoute = false)
 	{
-		var dateTime = date.ToDateTime(new TimeOnly());
+		var dateTime = date.ToDateTime(new TimeOnly(), DateTimeKind.Utc);
 		var query = _context.Flights.Where(f => f.Departure.Date == dateTime && f.AvailableSeats > 0);
 
 		if(includeAirplane)

@@ -7,7 +7,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 200Mi
+      storage: 400Mi
 
 ---
 
@@ -29,19 +29,23 @@ spec:
     spec:
       containers:
         - name: catalog-db
-          image: mcr.microsoft.com/mssql/server:2019-latest
+          image: postgres:latest
+          imagePullPolicy: "IfNotPresent"
           ports:
-            - containerPort: 1433
+            - containerPort: 5432
           env:
-            - name: MSSQL_PID
-              value: "Express"
-            - name: ACCEPT_EULA
-              value: "Y"
-            - name: SA_PASSWORD
+            - name: POSTGRES_DB
+              value: "catalog-db"
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  key: SA_PASSWORD
-                  name: catalog-db-sa-pass
+                  key: username
+                  name: catalog-db-credentials
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: catalog-db-credentials
           volumeMounts:
             - mountPath: /var/opt/db/catalog-db/data
               name: catalog-db
@@ -49,21 +53,6 @@ spec:
         - name: catalog-db
           persistentVolumeClaim:
             claimName: catalog-db-claim
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: catalog-db
-spec:
-  ports:
-    - port: 10002
-      protocol: TCP
-      targetPort: 1433
-  selector:
-    app: catalog-db
-  type: LoadBalancer
 
 ---
 
@@ -78,5 +67,20 @@ spec:
   ports:
     - name: catalog-db
       protocol: TCP
-      port: 1433
-      targetPort: 1433
+      port: 5432
+      targetPort: 5432
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-db
+spec:
+  ports:
+    - port: 10002
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    app: catalog-db
+  type: LoadBalancer

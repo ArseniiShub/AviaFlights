@@ -43,7 +43,6 @@ public class FlightGenerator : IFlightGenerator
 			return;
 		}
 
-
 		for(var date = start; date < end; date = date.AddDays(1))
 		{
 			var flightsOnDay = flightRepository.GetFlightsOnDay(date).ToList();
@@ -77,8 +76,8 @@ public class FlightGenerator : IFlightGenerator
 				Airplane = airplane,
 				AvailableSeats = airplane.AvailableSeats - rnd.Next(0, 6),
 				FlightRoute = route,
-				Departure = date.ToDateTime(new TimeOnly(2 + rnd.Next(7), 0, 0)),
-				Arrival = date.ToDateTime(new TimeOnly(10 + rnd.Next(11), 0, 0))
+				Departure = date.ToDateTime(new TimeOnly(2 + rnd.Next(7), 0, 0), DateTimeKind.Utc),
+				Arrival = date.ToDateTime(new TimeOnly(10 + rnd.Next(11), 0, 0), DateTimeKind.Utc)
 			};
 
 			result.Add(flight);

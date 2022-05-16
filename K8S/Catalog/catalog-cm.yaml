@@ -3,4 +3,5 @@ kind: ConfigMap
 metadata:
   name: catalog-cm
 data:
-  database-url: catalog-db-cip,1433
+  database-host: catalog-db-cip
+  database-port: "5432"
