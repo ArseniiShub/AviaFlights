@@ -19,13 +19,13 @@ public class RabbitMQMessageBusSubscriber : BackgroundService
 	{
 		_logger = logger;
 		_eventProcessor = eventProcessor;
-		
+
 		var factory = new ConnectionFactory
 		{
 			HostName = configuration[ConfigKeyPaths.RabbitMQHost],
 			Port = int.Parse(configuration[ConfigKeyPaths.RabbitMQPort])
 		};
-		_queueName = configuration[ConfigKeyPaths.DataManagementPublishQueue];
+		_queueName = configuration[ConfigKeyPaths.ManagementPublishQueue];
 
 		_connection = factory.CreateConnection();
 		_channel = _connection.CreateModel();
@@ -58,7 +58,7 @@ public class RabbitMQMessageBusSubscriber : BackgroundService
 		var jsonNotification = Encoding.UTF8.GetString(body.ToArray());
 
 		_eventProcessor.ProcessEvent(jsonNotification);
-		
+
 		((EventingBasicConsumer)sender!).Model.BasicAck(e.DeliveryTag, false);
 	}
 

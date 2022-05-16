@@ -23,7 +23,7 @@ public class RabbitMQMessageBusClient : IMessageBusClient, IDisposable
 			Port = int.Parse(configuration[ConfigKeyPaths.RabbitMQPort])
 		};
 
-		_queueName = configuration[ConfigKeyPaths.DataManagementPublishQueue];
+		_queueName = configuration[ConfigKeyPaths.ManagementPublishQueue];
 		_connection = factory.CreateConnection();
 		_channel = _connection.CreateModel();
 		_channel.QueueDeclare(_queueName, true, false, false);

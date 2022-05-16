@@ -1,0 +1,7 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: management-cm
+data:
+  database-host: management-db-cip
+  database-port: "5432"

@@ -1,0 +1,6 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: booking-cm
+data:
+  catalog-rpc-endpoint: http://catalog-cip:666

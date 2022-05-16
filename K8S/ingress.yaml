@@ -1,10 +1,10 @@
 ﻿apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-svc
+  name: ingress
   annotations:
     kubernetes.io/ingress.class: nginx
-    ngingx.ingress.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - host: acme.com
@@ -14,20 +14,20 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: data-mng-service-clusterip
+                name: management-cip
                 port:
                   number: 80
           - path: /api/c
             pathType: Prefix
             backend:
               service:
-                name: flight-catalog-service-clusterip
+                name: catalog-cip
                 port:
                   number: 80
           - path: /api/b
             pathType: Prefix
             backend:
               service:
-                name: booking-service-clusterip
+                name: booking-cip
                 port:
                   number: 80

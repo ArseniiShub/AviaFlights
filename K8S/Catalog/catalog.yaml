@@ -1,30 +1,30 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flight-catalog-service-depl
+  name: catalog-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flight-catalog-service
+      app: catalog
   template:
     metadata:
       labels:
-        app: flight-catalog-service
+        app: catalog
     spec:
       containers:
-        - name: flight-catalog-service
-          image: eyndrahena/flight-catalog-service:latest
+        - name: catalog
+          image: eyndrahena/catalog:latest
           env:
             - name: MSSQL_SA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: flight-catalog-db-sa-pass
+                  name: catalog-db-sa-pass
                   key: SA_PASSWORD
             - name: MSSQL_URL
               valueFrom:
                 configMapKeyRef:
-                  name: flight-catalog-cm
+                  name: catalog-cm
                   key: database-url
 
 ---
@@ -32,17 +32,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flight-catalog-service-clusterip
+  name: catalog-cip
 spec:
   type: ClusterIP
   selector:
-    app: flight-catalog-service
+    app: catalog
   ports:
-    - name: flight-catalog-service
+    - name: catalog
       protocol: TCP
       port: 80
       targetPort: 80
-    - name: flight-catalog-grpc
+    - name: catalog-grpc
       protocol: TCP
       port: 666
       targetPort: 666
@@ -52,13 +52,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flight-catalog-service-np
+  name: catalog-np
 spec:
   type: NodePort
   selector:
-    app: flight-catalog-service
+    app: catalog
   ports:
-    - name: flight-catalog-service
+    - name: catalog
       protocol: TCP
       port: 80
       targetPort: 80

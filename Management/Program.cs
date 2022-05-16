@@ -4,8 +4,8 @@ using System.Text.Json.Serialization;
 using Management.AsyncDataServices;
 using Management.ConstantValues;
 using Management.Data.Repositories;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,13 +43,21 @@ if(builder.Environment.IsDevelopment())
 }
 else
 {
-	logger.LogInformation("Using SqlServer Database");
-	var connStrBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DefaultConnection"))
-	{
-		DataSource = Environment.GetEnvironmentVariable(EnvironmentVariablesKeys.SqlServerUrl) ?? "",
-		Password = Environment.GetEnvironmentVariable(EnvironmentVariablesKeys.SqlServerSAPasswordKey) ?? ""
-	};
-	builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connStrBuilder.ConnectionString));
+	logger.LogInformation("Using Postgres Database");
+
+	var connStrBuilder =
+		new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DefaultConnection"))
+		{
+			Host = Environment.GetEnvironmentVariable(EnvironmentVariablesKeys.PostgresHost) ?? "",
+			Username = Environment.GetEnvironmentVariable(EnvironmentVariablesKeys.PostgresUsername) ?? "",
+			Password = Environment.GetEnvironmentVariable(EnvironmentVariablesKeys.PostgresPassword) ?? "",
+		};
+
+	var portParsed = int.TryParse(Environment.GetEnvironmentVariable(EnvironmentVariablesKeys.PostgresPort),
+			out int port);
+	connStrBuilder.Port = portParsed ? port : 5432;
+
+	builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connStrBuilder.ConnectionString));
 
 	builder.Services.AddSingleton<IMessageBusClient, RabbitMQMessageBusClient>();
 }

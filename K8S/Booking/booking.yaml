@@ -1,39 +1,39 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: booking-service-deploy
+  name: booking-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: booking-service
+      app: booking
   template:
     metadata:
       labels:
-        app: booking-service
+        app: booking
     spec:
       containers:
-        - name: booking-service
-          image: eyndrahena/booking-service:latest
+        - name: booking
+          image: eyndrahena/booking:latest
           env:
-            - name: CatalogServiceRpcEndpoint
+            - name: CatalogRpcEndpoint
               valueFrom:
                 configMapKeyRef:
-                  name: booking-service-cm
-                  key: catalog-service-rpc-endpoint
+                  name: booking-cm
+                  key: catalog-rpc-endpoint
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: booking-service-clusterip
+  name: booking-cip
 spec:
   type: ClusterIP
   selector:
-    app: booking-service
+    app: booking
   ports:
-    - name: booking-service
+    - name: booking
       protocol: TCP
       port: 80
       targetPort: 80
@@ -43,13 +43,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: booking-service-np
+  name: booking-np
 spec:
   type: NodePort
   selector:
-    app: booking-service
+    app: booking
   ports:
-    - name: booking-service
+    - name: booking
       protocol: TCP
       port: 80
       targetPort: 80

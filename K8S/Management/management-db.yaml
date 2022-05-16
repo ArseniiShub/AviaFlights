@@ -1,0 +1,86 @@
+﻿apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: management-db-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 400Mi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: management-db-deploy
+  labels:
+    app: management-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: management-db
+  template:
+    metadata:
+      labels:
+        app: management-db
+    spec:
+      containers:
+        - name: management-db
+          image: postgres:latest
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+          - name: POSTGRES_DB
+            value: "postgres-db"
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: management-db-credentials
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: management-db-credentials
+          volumeMounts:
+            - mountPath: /var/opt/db/management-db/data
+              name: management-db
+      volumes:
+        - name: management-db
+          persistentVolumeClaim:
+            claimName: management-db-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: management-db-cip
+spec:
+  type: ClusterIP
+  selector:
+    app: management-db
+  ports:
+    - name: management-db
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-db
+spec:
+  ports:
+    - port: 10001
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    app: management-db
+  type: LoadBalancer

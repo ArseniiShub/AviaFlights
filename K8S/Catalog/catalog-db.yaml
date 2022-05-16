@@ -1,7 +1,7 @@
 ﻿apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: data-mng-db-claim
+  name: catalog-db-claim
 spec:
   accessModes:
     - ReadWriteMany
@@ -14,21 +14,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: data-mng-db-depl
+  name: catalog-db-deploy
   labels:
-    app: data-mng-db
+    app: catalog-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: data-mng-db
+      app: catalog-db
   template:
     metadata:
       labels:
-        app: data-mng-db
+        app: catalog-db
     spec:
       containers:
-        - name: data-mng-db
+        - name: catalog-db
           image: mcr.microsoft.com/mssql/server:2019-latest
           ports:
             - containerPort: 1433
@@ -41,28 +41,28 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: SA_PASSWORD
-                  name: data-mng-db-sa-pass
+                  name: catalog-db-sa-pass
           volumeMounts:
-            - mountPath: /var/opt/db/data-mng-db/data
-              name: data-mng-db
+            - mountPath: /var/opt/db/catalog-db/data
+              name: catalog-db
       volumes:
-        - name: data-mng-db
+        - name: catalog-db
           persistentVolumeClaim:
-            claimName: data-mng-db-claim
+            claimName: catalog-db-claim
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: data-mng-db
+  name: catalog-db
 spec:
   ports:
-    - port: 11111
+    - port: 10002
       protocol: TCP
       targetPort: 1433
   selector:
-    app: data-mng-db
+    app: catalog-db
   type: LoadBalancer
 
 ---
@@ -70,13 +70,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: data-mng-db-clusterip
+  name: catalog-db-cip
 spec:
   type: ClusterIP
   selector:
-    app: data-mng-db
+    app: catalog-db
   ports:
-    - name: data-mng-db
+    - name: catalog-db
       protocol: TCP
       port: 1433
       targetPort: 1433

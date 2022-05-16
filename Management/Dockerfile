@@ -19,4 +19,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Management.dll"]
 
-# docker build -f Management\Dockerfile -t eyndrahena/data-mng-service . ; docker push eyndrahena/data-mng-service ; kubectl rollout restart deploy data-mng-service-depl
+# docker build -f Management\Dockerfile -t eyndrahena/management . ; docker push eyndrahena/management ; kubectl rollout restart deploy management-deploy

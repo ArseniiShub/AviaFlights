@@ -1,0 +1,6 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog-cm
+data:
+  database-url: catalog-db-cip,1433

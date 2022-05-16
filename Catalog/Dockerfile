@@ -19,4 +19,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Catalog.dll"]
 
-# docker build -f Catalog\Dockerfile -t eyndrahena/flight-catalog-service . ; docker push eyndrahena/flight-catalog-service ; kubectl rollout restart deploy flight-catalog-service-depl
+# docker build -f Catalog\Dockerfile -t eyndrahena/catalog . ; docker push eyndrahena/catalog ; kubectl rollout restart deploy catalog-deploy

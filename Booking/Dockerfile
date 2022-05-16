@@ -19,4 +19,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Booking.dll"]
 
-# docker build -f Booking\Dockerfile -t eyndrahena/booking-service . ; docker push eyndrahena/booking-service ; kubectl rollout restart deploy booking-service-deploy
+# docker build -f Booking\Dockerfile -t eyndrahena/booking . ; docker push eyndrahena/booking ; kubectl rollout restart deploy booking-deploy

@@ -2,6 +2,8 @@
 
 public static class EnvironmentVariablesKeys
 {
-	public static string SqlServerUrl => "MSSQL_URL";
-	public static string SqlServerSAPasswordKey => "MSSQL_SA_PASSWORD";
+	public static string PostgresHost => "POSTGRES_HOST";
+	public static string PostgresPort => "POSTGRES_PORT";
+	public static string PostgresUsername => "POSTGRES_USERNAME";
+	public static string PostgresPassword => "POSTGRES_PASSWORD";
 }
