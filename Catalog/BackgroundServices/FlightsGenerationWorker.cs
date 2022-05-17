@@ -34,7 +34,7 @@ public class Worker : BackgroundService
 
 	private void OnTick(object? state)
 	{
-		var currentDate = DateOnly.FromDateTime(DateTime.Today);
+		var currentDate = DateOnly.FromDateTime(DateTime.UtcNow);
 
 		if(_lastSuccessfulGenerationDate == currentDate)
 		{
